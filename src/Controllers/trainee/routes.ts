@@ -87,7 +87,7 @@ traineeRouter.route('/')
     /**
      * @swagger
      *
-     * /api/trainee:
+     * /trainee:
      *   get:
      *     description: Returns the list of the trainees
      *     security:
@@ -146,7 +146,7 @@ traineeRouter.route('/')
     /**
      * @swagger
      *
-     * /api/trainee:
+     * /trainee:
      *   post:
      *     description: Returns the success reponse on creation
      *     security:
@@ -189,7 +189,7 @@ traineeRouter.route('/')
     /**
      * @swagger
      *
-     * /api/trainee:
+     * /trainee:
      *   put:
      *     description: Returns the success reponse on creation
      *     security:
@@ -234,7 +234,7 @@ traineeRouter.route('/')
 /**
  * @swagger
  *
- * /api/trainee/{id}:
+ * /trainee/{id}:
  *   delete:
  *     description: Returns the success reponse on creation
  *     security:

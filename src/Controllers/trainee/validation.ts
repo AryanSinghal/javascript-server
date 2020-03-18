@@ -30,7 +30,7 @@ const validation = {
             string: true,
             regex: /[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/,
             in: ['body'],
-            errorMessage: 'email is required'
+            errorMessage: 'email is required',
         },
         dob:
         {

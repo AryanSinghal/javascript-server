@@ -30,7 +30,7 @@ const userRouter: Router = Router();
 /**
  * @swagger
  *
- * /api/user/me:
+ * /user/me:
  *   get:
  *     description: Details of the current user.
  *     security:
@@ -48,7 +48,7 @@ userRouter.route('/me')
 /**
  * @swagger
  *
- * /api/user/login:
+ * /user/login:
  *   post:
  *     description: Login Credentials
  *     security:

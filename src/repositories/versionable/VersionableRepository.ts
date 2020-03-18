@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { IVersionableDocument, VersionableRepository } from '.';
+
 export default class VersionRepository< D extends mongoose.Document, M extends mongoose.Model<D> > {
     protected versionModel: M ;
     constructor(versionModel) {
@@ -18,20 +19,18 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
             createdAt: Date.now(),
         });
     }
-    async delete(req, id) {
+    async delete(userId, id) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
         return this.versionModel.findByIdAndUpdate( oldData._id ,
             {
             deletedAt: Date.now(),
-            deletedBy: req.user._id
+            deletedBy: userId
             }
         );
     }
-    async update(req, id, updatedData) {
+    async update(userId, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
         const { name, address, email, dob, mob, hobbies, role, password} = oldData;
-        if ( updatedData.name !== undefined)
-            updatedData.name = updatedData.name.toLowerCase();
         if ( updatedData.email !== undefined)
             updatedData.email = updatedData.email.toLowerCase();
         const bool = await this.versionModel.findOne({email: updatedData.email, deletedAt: undefined});
@@ -43,12 +42,12 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
                 password,
                 originalId: id,
                 updatedAt: Date.now(),
-                updatedBy: req.user._id
+                updatedBy: userId,
             });
             return this.versionModel.findByIdAndUpdate( oldData._id ,
                 {
                 deletedAt: Date.now(),
-                deletedBy: req.user._id
+                deletedBy: userId,
                 }
             );
         }
@@ -56,7 +55,7 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
             return false;
         }
     }
-    public list(userRole, skipRecord, limitRecord, sortBy, searchBy) {
-        return this.versionModel.find({deletedAt: undefined, role: userRole, ...searchBy}, {password: 0}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
+    public list(userRole, skipRecord, limitRecord, sort, searchBy) {
+        return this.versionModel.find({deletedAt: undefined, role: userRole, ...searchBy}, {password: 0}).sort(sort).skip(Number(skipRecord)).limit(Number(limitRecord));
     }
 }

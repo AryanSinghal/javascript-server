@@ -4,16 +4,18 @@ import hasPermission from '../hasPermission';
 import { Request, Response, NextFunction } from 'express';
 import UserRepository from '../../repositories/user/UserRepository';
 import IUserModel from '../../repositories/user/IUserModel';
+
 interface IRequest extends Request {
     user: IUserModel;
 }
+
 const authMiddleWare = (module, permissionType) => async (req: IRequest, res: Response, next: NextFunction) => {
     console.log('------------AUTHMIDDLEWARE------------', module, permissionType);
     try {
         const token: string = req.headers.authorization;
         console.log(token);
-        const { Key } = config;
-        const decodedUser = jwt.verify(token, Key);
+        const { key } = config;
+        const decodedUser = jwt.verify(token, key);
         if (!decodedUser) {
             return next({
                 status: 403,
@@ -46,4 +48,5 @@ const authMiddleWare = (module, permissionType) => async (req: IRequest, res: Re
         });
     }
 };
+
 export { authMiddleWare };
